@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HomePage</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<style>
+  body {
+    background-image: url('https://png.pngtree.com/background/20230616/original/pngtree-faceted-abstract-background-in-3d-with-shimmering-iridescent-metallic-texture-of-picture-image_3653595.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    /* background-color: aqua; */
+  }
+  #title{
+    font-size: 50px;
+    text-decoration: underline;
+    padding-bottom: 10%;
+    color: rgb(29, 29, 94);
+  }
+
+  .log{
+    background-color: rgb(92, 92, 171);
+      
+  }
+
+  .log a{
+color: aliceblue; 
+  }
+</style>
+
+<body>
+  <div class="container">
+    <% if (user) { %>
+      <h1>Welcome <%= user.email %>  you have successfully logged in
+      </h1>
+      <!-- <p>Hello How  Are  You</p> -->
+      
+
+
+  
+
+      <form action="/logout" method="get">
+        <button type="submit">Logout</button>
+      </form>
+      <form action="/reset-password" method="get">
+        <button type="submit">Reset Password</button>
+      </form>
+      <% } else { %>
+        <div class="special" id="box">
+          <h1 id="title">Welcome to complete auth</h1>
+          <h1>Signup to continue</h1>
+          <p class="message">
+            <%= message %>
+          </p>
+
+          <button class="log"><a href="/signup">Sign up</a></button>
+          <h1>Already have an account?</h1>
+
+          <button type="submit" class="log"><a href="/login">Login</a></button>
+
+        </div>
+        <% } %>
+  </div>
+</body>
+
+</html>
