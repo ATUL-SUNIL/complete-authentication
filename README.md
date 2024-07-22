@@ -13,7 +13,7 @@ This project is a complete authentication system built with Node.js, Express, an
 - Password hashing with `bcrypt`
 - Email sending with `nodemailer`
 
-## Installation
+
 
 ### Prerequisites
 
