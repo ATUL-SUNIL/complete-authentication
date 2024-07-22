@@ -73,7 +73,6 @@ passport.deserializeUser((id, done) => {
 });
 
 // Google Strategy
-
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -99,6 +98,14 @@ passport.use(new GoogleStrategy({
     });
 }));
 
+// Create and configure the transporter
+const transporter = nodemailer.createTransport({
+    service: 'gmail', // or another email service provider
+    auth: {
+        user: process.env.GMAIL_ID,
+        pass: process.env.GMAIL_PASS
+    }
+});
 
 // Routes
 app.get('/', (req, res) => {
@@ -149,8 +156,8 @@ app.post('/reset-password', (req, res) => {
         return;
     }
     User.findOneAndUpdate(
-        { resetPasswordToken: token },
-        { $set: { password: bcrypt.hashSync(password, 10), resetPasswordToken: null } },
+        { passwordResetToken: token },
+        { $set: { password: bcrypt.hashSync(password, 10), passwordResetToken: null } },
         { new: true },
         (err, user) => {
             if (err) {
@@ -207,6 +214,7 @@ app.post('/forgot-password', (req, res) => {
 
             transporter.sendMail(mailOptions, (err) => {
                 if (err) {
+                    console.log(err);
                     req.flash('message', 'An error occurred while sending the email');
                     return res.redirect('/forgot-password');
                 }
@@ -345,5 +353,5 @@ app.post('/logout', (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
